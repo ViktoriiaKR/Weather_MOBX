@@ -5,6 +5,10 @@ import { api } from '../utils/config'
 
 const URL = "https://api.openweathermap.org/data/2.5/forecast?q="
 const API_KEY = 'bad46dfee1ae1125ec4faf31e63449de'
+interface IWeather {
+  dt_txt: string
+  temp: number
+}
 
 class Store {
   constructor() {
@@ -14,7 +18,7 @@ class Store {
   @observable loading = false
 
   @action
-    async getWeather(city: string) {
+    async getWeather(city: string): Promise<IWeather> {
     const empty = [] as any
 
     try {
@@ -28,6 +32,7 @@ class Store {
             }
           )
         })
+
         runInAction(() => {
           this.weatherData = empty
           this.loading = true
